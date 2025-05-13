@@ -7,15 +7,15 @@ def get_book_text(path):
     return text
 
 def get_book_wordcount(text):
-    num_words = len(text.split())
-    print("----------- Word Count ----------")
-    print(f"Found {num_words} total words")
-
+    return len(text.split())
+    
 def get_char_count(text):
     char_count = dict()
+    output_lines = []
     
     for char in text:
-        char = char.lower()
+        if char.isalpha():
+            char = char.lower()
         if char not in char_count:
             char_count[char] = 1
         else:
@@ -23,7 +23,23 @@ def get_char_count(text):
     
     sorted_by_values = dict(sorted(char_count.items(), key=lambda item: item[1], reverse=True))
 
-    print("--------- Character Count -------")
     for key in sorted_by_values:
-        print(f"{key}: {sorted_by_values[key]}")
+        output_lines.append(f"{key}: {sorted_by_values[key]}")
+    
+    output_string = "\n".join(output_lines)
 
+    return output_string
+
+def print_report(path):
+
+    text = get_book_text(path)
+    word_count = get_book_wordcount(text)
+    char_count = get_char_count(text)
+
+    print("============ BOOKBOT ============")
+    print(f"Analyzing book found at {path}...")
+
+    print("----------- Word Count ----------")
+    print(f"Found {word_count} total words")
+    print("--------- Character Count -------")
+    print(char_count)
